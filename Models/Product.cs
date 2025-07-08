@@ -21,8 +21,6 @@ namespace NaimaBeauty.Models
          public string ? ImageUrl { get; set; }
 
         public List<ProductCategory>? ProductCategories { get; set; }     // Many-to-many relationship with Category through ProductCategory
- 
-        // (Optional) Many-to-many with customers
 
         public List<ProductCustomer>? ProductCustomers { get; set; }
 

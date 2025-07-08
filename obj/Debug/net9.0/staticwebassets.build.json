@@ -1,0 +1,20 @@
+{
+  "Version": 1,
+  "Hash": "vekL575K+h7Pa9Kl97YNAOvdzj0Kirv9e3wYveh6Q3M=",
+  "Source": "NaimaBeauty",
+  "BasePath": "_content/NaimaBeauty",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "NaimaBeauty/wwwroot",
+      "Source": "NaimaBeauty",
+      "ContentRoot": "/Users/naima/NaimaBeauty/wwwroot/",
+      "BasePath": "_content/NaimaBeauty",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [],
+  "Endpoints": []
+}
