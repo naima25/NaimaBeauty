@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "bnQ+laRueHo=",
+  "success": true,
+  "projectFilePath": "/Users/naima/NaimaBeauty/NaimaBeauty.csproj",
+  "expectedPackageFiles": [
+    "/Users/naima/.nuget/packages/microsoft.aspnetcore.openapi/9.0.1/microsoft.aspnetcore.openapi.9.0.1.nupkg.sha512",
+    "/Users/naima/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
