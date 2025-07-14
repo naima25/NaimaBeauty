@@ -36,7 +36,7 @@ namespace NaimaBeauty.Repositories
         }
 
         // Updates an existing Category
-        public async Task UpdateAsync(Category category)
+        public async Task UpdateAsync(int id, Category category)
         {
             _context.Entry(category).State = EntityState.Modified;
             await _context.SaveChangesAsync();

@@ -28,7 +28,7 @@ namespace NaimaBeauty.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(OrderItem orderItem)
+        public async Task UpdateAsync(int id, OrderItem orderItem)
         {
             _context.Entry(orderItem).State = EntityState.Modified;
             await _context.SaveChangesAsync();

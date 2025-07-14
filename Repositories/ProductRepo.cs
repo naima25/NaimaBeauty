@@ -30,7 +30,7 @@ namespace NaimaBeauty.Repositories
         }
 
         // Updates a Product in the database asynchronously
-        public async Task UpdateAsync(Product product)
+        public async Task UpdateAsync(int id, Product product)
         {
             _context.Entry(product).State = EntityState.Modified;
             await _context.SaveChangesAsync();

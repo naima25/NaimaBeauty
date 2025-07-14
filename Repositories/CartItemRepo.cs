@@ -32,7 +32,7 @@ namespace NaimaBeauty.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(CartItem cartItem)
+        public async Task UpdateAsync(int id, CartItem cartItem)
         {
             _context.Entry(cartItem).State = EntityState.Modified;
             await _context.SaveChangesAsync();

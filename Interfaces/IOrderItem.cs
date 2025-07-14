@@ -9,7 +9,7 @@ namespace NaimaBeauty.Interfaces
         Task<IEnumerable<OrderItem>> GetAllAsync();
         Task<OrderItem?> GetByIdAsync(int id);
         Task AddAsync(OrderItem orderItem);
-        Task UpdateAsync(OrderItem orderItem);
+        Task UpdateAsync(int id, OrderItem orderItem);
         Task DeleteAsync(int id);
     }
 }

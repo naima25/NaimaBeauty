@@ -36,7 +36,7 @@ namespace NaimaBeauty.Repositories
         }
 
         // Updates an existing cart
-        public async Task UpdateAsync(Cart cart)
+        public async Task UpdateAsync(int id, Cart cart)
         {
             _context.Entry(cart).State = EntityState.Modified;
             await _context.SaveChangesAsync();

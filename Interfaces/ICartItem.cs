@@ -9,7 +9,7 @@ namespace NaimaBeauty.Interfaces
         Task<IEnumerable<CartItem>> GetAllAsync();
         Task<CartItem?> GetByIdAsync(int id);
         Task AddAsync(CartItem cartItem);
-        Task UpdateAsync(CartItem cartItem);
+        Task UpdateAsync(int id, CartItem cartItem);
         Task DeleteAsync(int id);
     }
 }
