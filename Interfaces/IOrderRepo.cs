@@ -9,7 +9,7 @@ namespace NaimaBeauty.Repositories
         Task<IEnumerable<Order>> GetAllAsync();
         Task<Order?> GetByIdAsync(int id);
         Task AddAsync(Order order);
-        Task UpdateAsync(Order order);
+        Task UpdateAsync(int id, Order order);
         Task DeleteAsync(int id);
     }
 }
