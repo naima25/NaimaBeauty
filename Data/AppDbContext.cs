@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using NaimaBeauty.Models; 
 
 namespace NaimaBeauty.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<Customer>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -15,7 +16,6 @@ namespace NaimaBeauty.Data
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
-        public DbSet<ProductCustomer> ProductCustomers { get; set; }
    
     }
 }
