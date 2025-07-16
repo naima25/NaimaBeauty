@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using NaimaBeauty.Services;
 using NaimaBeauty.Interfaces;
+using Microsoft.OpenApi.Models;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +26,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 
 
-
+//Identity services helps to manage user authentication and roles
 builder.Services.AddIdentity<Customer, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
@@ -66,16 +68,30 @@ builder.Services.AddAuthentication(options =>
 
 
 //Swagger configuration for API documentation 
-
-
-
-
-
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "NaimaBeauty API",
+        Description = "A simple e-commerce Web API to manage orders, order-items, customers, products, and categories for a coursework project at the University of Westminster.",
+        TermsOfService = new Uri("https://www.westminster.ac.uk/terms-of-use"), 
+        Contact = new OpenApiContact
+        {
+            Name = "Naima Abdulle", 
+            Url = new Uri("https://example.com/contact") 
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Example License",
+            Url = new Uri("https://example.com/license") 
+        }
+    });
+});
 
 
 builder.Services.AddEndpointsApiExplorer();
-
-
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -83,14 +99,15 @@ var app = builder.Build();
 // app.UseStaticFiles(); 
 // app.MapGet("/test-image", () => Results.Ok("Static files are working!"));
 
-// if (app.Environment.IsDevelopment())
-// {
-//     app.UseSwagger(); // Enables the Swagger JSON generation
-//     app.UseSwaggerUI(options => 
-//     {
-//         options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-//         options.RoutePrefix = string.Empty; 
-//     });
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger(); // Enables the Swagger JSON generation
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        options.RoutePrefix = string.Empty;
+    });
+}
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
