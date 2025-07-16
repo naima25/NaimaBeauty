@@ -171,3 +171,6 @@
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.Extensions.Identity.Core.dll
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.Extensions.Identity.Stores.dll
+/Users/naima/NaimaBeauty/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
+/Users/naima/NaimaBeauty/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/naima/NaimaBeauty/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
