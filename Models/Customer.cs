@@ -15,7 +15,5 @@ namespace NaimaBeauty.Models
         // [JsonIgnore]
         public List<Order>? Orders { get; set; }    // One-to-many relationship
 
-        // Navigation property to ProductCustomer table (Many-to-Many with Product)
-        public List<ProductCustomer>? ProductCustomers { get; set; }  // Tracks products purchased by this customer
     }
 }

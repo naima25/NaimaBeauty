@@ -1,26 +1,22 @@
 using System.Collections.Generic;
-
 using System.ComponentModel.DataAnnotations;
- 
-namespace NaimaBeauty.Models
 
+namespace NaimaBeauty.DTO
 {
-    public class Product
-
+    public class ProductDTO
     {
         public int Id { get; set; }
- 
-        [Required]
 
+        [Required]
         [StringLength(100, MinimumLength = 3)]
-        public string? Name { get; set; }
- 
+        public string Name { get; set; }
+
         [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than zero.")]
         public decimal Price { get; set; }
-         public string ? ImageUrl { get; set; }
 
-        public List<ProductCategory>? ProductCategories { get; set; }     // Many-to-many relationship with Category through ProductCategory
+         public string ImageUrl { get; set; }
 
+        public List<int> CategoryIds { get; set; } = new();
+        public List<string> CategoryNames { get; set; } = new();
     }
-
 }

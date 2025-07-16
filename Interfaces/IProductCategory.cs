@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using NaimaBeauty.Models;
 
-namespace NaimaBeauty.Repositories
+namespace NaimaBeauty.Interfaces
 {
     public interface IProductCategoryRepository
     {

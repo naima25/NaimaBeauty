@@ -6,7 +6,7 @@ using NaimaBeauty.Models;
 using Microsoft.EntityFrameworkCore;
 using NaimaBeauty.Repositories;
 
-namespace EasyCommerce.Services
+namespace NaimaBeauty.Services
 {
     public class ProductCategoryService : IProductCategoryRepository
     {
