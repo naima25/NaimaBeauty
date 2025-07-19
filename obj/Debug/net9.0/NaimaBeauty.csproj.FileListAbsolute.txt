@@ -10,6 +10,10 @@
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Azure.Core.dll
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Azure.Identity.dll
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Humanizer.dll
+/Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.AspNetCore.Cryptography.Internal.dll
+/Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+/Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.AspNetCore.OpenApi.dll
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.Bcl.AsyncInterfaces.dll
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.Build.Locator.dll
@@ -31,6 +35,8 @@
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.Extensions.DependencyInjection.dll
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.Extensions.DependencyModel.dll
+/Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.Extensions.Identity.Core.dll
+/Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.Extensions.Identity.Stores.dll
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.Extensions.Logging.dll
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.Extensions.Logging.Abstractions.dll
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.Extensions.Options.dll
@@ -47,6 +53,9 @@
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.SqlServer.Server.dll
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.Win32.SystemEvents.dll
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/Mono.TextTemplating.dll
+/Users/naima/NaimaBeauty/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
+/Users/naima/NaimaBeauty/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/naima/NaimaBeauty/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/System.ClientModel.dll
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/System.CodeDom.dll
 /Users/naima/NaimaBeauty/bin/Debug/net9.0/System.Composition.AttributedModel.dll
@@ -165,12 +174,3 @@
 /Users/naima/NaimaBeauty/obj/Debug/net9.0/NaimaBeauty.pdb
 /Users/naima/NaimaBeauty/obj/Debug/net9.0/NaimaBeauty.genruntimeconfig.cache
 /Users/naima/NaimaBeauty/obj/Debug/net9.0/ref/NaimaBeauty.dll
-/Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
-/Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.AspNetCore.Cryptography.Internal.dll
-/Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
-/Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
-/Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.Extensions.Identity.Core.dll
-/Users/naima/NaimaBeauty/bin/Debug/net9.0/Microsoft.Extensions.Identity.Stores.dll
-/Users/naima/NaimaBeauty/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
-/Users/naima/NaimaBeauty/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
-/Users/naima/NaimaBeauty/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll

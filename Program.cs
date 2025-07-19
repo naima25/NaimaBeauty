@@ -11,7 +11,6 @@ using NaimaBeauty.Interfaces;
 using Microsoft.OpenApi.Models;
 
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -43,6 +42,8 @@ builder.Services.AddScoped<IOrderItemRepository, OrderItemService>();
 builder.Services.AddScoped<IOrderRepository, OrderService>();
 builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryService>();
 builder.Services.AddScoped<IProductRepository, ProductService>();
+
+
 
 
 // Configure JWT token validation parameters (Issuer, Audience, Signing Key, etc.).

@@ -1,10 +1,10 @@
 using NaimaBeauty.Models;
-using NaimaBeauty.Data; 
+using NaimaBeauty.Data;
 using NaimaBeauty.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using NaimaBeauty.Repositories;
+
 
 namespace NaimaBeauty.Services
 {

@@ -2,6 +2,8 @@ using NaimaBeauty.DTO;
 using NaimaBeauty.Models;
 using NaimaBeauty.Data;
 using NaimaBeauty.Services;
+using NaimaBeauty.Repositories;
+using NaimaBeauty.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NaimaBeauty.Controllers
@@ -10,13 +12,12 @@ namespace NaimaBeauty.Controllers
     [Route("api/[controller]")]
     public class ProductCategoryController : ControllerBase
     {
-        private readonly ProductCategoryService _service;
-
-        public ProductCategoryController(ProductCategoryService service)
+        private readonly IProductCategoryRepository _service;
+ 
+        public ProductCategoryController(IProductCategoryRepository service)
         {
             _service = service;
         }
-
         // GET: api/productcategory
         [HttpGet]
         public async Task<IActionResult> GetAll()

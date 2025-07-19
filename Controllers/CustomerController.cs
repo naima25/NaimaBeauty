@@ -16,16 +16,15 @@ namespace NaimaBeauty.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly CustomerService _customerService;  // Injecting the customer service interface to handle business logic
+        private readonly ICustomerRepository _customerService; 
         private readonly ILogger<CustomerController> _logger;  // Injecting logger to log info, warning + error
 
-         // Constructor that accepts the customer service and logger for dependency injection
-        public CustomerController(CustomerService customerService, ILogger<CustomerController> logger)
+           public CustomerController(ICustomerRepository customerService, ILogger<CustomerController> logger)
         {
             _customerService = customerService;
             _logger = logger;
         }
-
+      
         // GET: api/Customer
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()

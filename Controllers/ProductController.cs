@@ -18,13 +18,13 @@ namespace NaimaBeauty.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly ProductService _productService;
+        private readonly IProductRepository _productService;
         private readonly ILogger<ProductController> _logger;
         private readonly AppDbContext _context;
 
         // Updated constructor to inject BOTH services + context
         public ProductController(
-            ProductService productService,
+            IProductRepository productService,
             ILogger<ProductController> logger,
             AppDbContext context
         )
