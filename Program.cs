@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using NaimaBeauty.Services;
 using NaimaBeauty.Interfaces;
 using Microsoft.OpenApi.Models;
+using NaimaBeauty.Repositories;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,6 +43,8 @@ builder.Services.AddScoped<RolesController>();
 //Services - business logic layer
 builder.Services.AddScoped<ICartItemRepository, CartItemService>();
 builder.Services.AddScoped<ICartRepository, CartService>();
+// builder.Services.AddScoped<ICartRepository, CartRepository>();
+// builder.Services.AddScoped<CartService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryService>();
 builder.Services.AddScoped<ICustomerRepository, CustomerService>();
 builder.Services.AddScoped<IOrderItemRepository, OrderItemService>();

@@ -52,6 +52,7 @@ namespace NaimaBeauty.Controllers
             return cart;
         }
 
+       
         // POST: api/Cart
         [HttpPost]
         public async Task<ActionResult<Cart>> CreateCart(Cart cart)
@@ -186,3 +187,77 @@ namespace NaimaBeauty.Controllers
         }
     }
 }
+
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Threading.Tasks;
+// using Microsoft.AspNetCore.Mvc;
+// using Microsoft.Extensions.Logging;
+// using NaimaBeauty.Models;
+// using NaimaBeauty.Services;
+
+// namespace NaimaBeauty.Controllers
+// {
+//     [ApiController]
+//     [Route("api/[controller]")]
+//     public class CartController : ControllerBase
+//     {
+//         private readonly CartService _cartService;
+//         private readonly ILogger<CartController> _logger;
+
+//         public CartController(CartService cartService, ILogger<CartController> logger)
+//         {
+//             _cartService = cartService;
+//             _logger = logger;
+//         }
+
+//         [HttpGet]
+//         public async Task<ActionResult<IEnumerable<Cart>>> GetCarts()
+//         {
+//             var carts = await _cartService.GetAllAsync();
+//             return Ok(carts);
+//         }
+
+//         [HttpGet("{id}")]
+//         public async Task<ActionResult<Cart>> GetCart(int id)
+//         {
+//             var cart = await _cartService.GetByIdAsync(id);
+//             if (cart == null)
+//                 return NotFound();
+
+//             return Ok(cart);
+//         }
+
+//         [HttpPost]
+//         public async Task<ActionResult<Cart>> CreateCart(Cart cart)
+//         {
+//             // NOTE: Product validation logic stays in controller if needed
+//             if (cart.CartItems != null && cart.CartItems.Any())
+//             {
+//                 var productIds = cart.CartItems.Select(ci => ci.ProductId).Distinct();
+//                 // Ideally this validation should move to the service/repo layer
+//                 return BadRequest("Product validation should move to service.");
+//             }
+
+//             await _cartService.AddAsync(cart);
+//             return CreatedAtAction(nameof(GetCart), new { id = cart.Id }, cart);
+//         }
+
+//         [HttpPut("{id}")]
+//         public async Task<IActionResult> UpdateCart(int id, Cart cart)
+//         {
+//             if (id != cart.Id)
+//                 return BadRequest();
+
+//             await _cartService.UpdateAsync(id, cart);
+//             return NoContent();
+//         }
+
+//         [HttpDelete("{id}")]
+//         public async Task<IActionResult> DeleteCart(int id)
+//         {
+//             await _cartService.DeleteAsync(id);
+//             return NoContent();
+//         }
+//     }
+// }
