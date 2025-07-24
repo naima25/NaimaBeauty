@@ -31,14 +31,29 @@ namespace NaimaBeauty.Services
             await _context.SaveChangesAsync();
         }
 
+        // public async Task DeleteAsync(int productId, int categoryId)
+        // {
+        //     var pc = await _context.ProductCategories.FindAsync(productId, categoryId);
+        //     if (pc != null)
+        //     {
+        //         _context.ProductCategories.Remove(pc);
+        //         await _context.SaveChangesAsync();
+        //     }
+        // }
+
         public async Task DeleteAsync(int productId, int categoryId)
         {
-            var pc = await _context.ProductCategories.FindAsync(productId, categoryId);
-            if (pc != null)
+            var productCategory = await _context.ProductCategories
+                .FirstOrDefaultAsync(pc => pc.ProductId == productId && pc.CategoryId == categoryId);
+
+            if (productCategory == null)
             {
-                _context.ProductCategories.Remove(pc);
-                await _context.SaveChangesAsync();
+                throw new ArgumentException("Mapping not found.");
             }
+
+            _context.ProductCategories.Remove(productCategory);
+            await _context.SaveChangesAsync();
         }
+
     }
 }

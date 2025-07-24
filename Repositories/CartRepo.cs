@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NaimaBeauty.Data;
 using NaimaBeauty.Models;
-using NaimaBeauty.Interfaces; 
+using NaimaBeauty.Interfaces;
 
 namespace NaimaBeauty.Repositories
 {
@@ -42,15 +42,35 @@ namespace NaimaBeauty.Repositories
             await _context.SaveChangesAsync();
         }
 
-        // Deletes a cart by ID
+        //     // Deletes a cart by ID
+        //     public async Task DeleteAsync(int id)
+        //     {
+        //         var cart = await _context.Carts.FindAsync(id);
+        //         if (cart != null)
+        //         {
+        //             _context.Carts.Remove(cart);
+        //             await _context.SaveChangesAsync();
+        //         }
+        //     }
+        // }
+
         public async Task DeleteAsync(int id)
         {
-            var cart = await _context.Carts.FindAsync(id);
+            var cart = await _context.Carts
+                .Include(c => c.CartItems)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
             if (cart != null)
             {
+                // Explicitly remove the cart items
+                _context.CartItems.RemoveRange(cart.CartItems);
+
+                // Then remove the cart
                 _context.Carts.Remove(cart);
+
                 await _context.SaveChangesAsync();
             }
         }
+
     }
 }

@@ -38,14 +38,34 @@ namespace NaimaBeauty.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        // public async Task DeleteAsync(int id)
+        // {
+        //     var cart = await _context.Carts.FindAsync(id);
+        //     if (cart != null)
+        //     {
+        //         _context.Carts.Remove(cart);
+        //         await _context.SaveChangesAsync();
+        //     }
+        // }
+
+             public async Task DeleteAsync(int id)
         {
-            var cart = await _context.Carts.FindAsync(id);
+            var cart = await _context.Carts
+                .Include(c => c.CartItems)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
             if (cart != null)
             {
+                // First remove all related cart items
+                _context.CartItems.RemoveRange(cart.CartItems);
+
+                // Then remove the cart
                 _context.Carts.Remove(cart);
+
                 await _context.SaveChangesAsync();
             }
         }
+
+
     }
 }

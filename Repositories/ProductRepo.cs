@@ -16,11 +16,19 @@ namespace NaimaBeauty.Repositories
             _context = context;
         }
 
-        // Retrieves all Products from the database asynchronously
-        public async Task<IEnumerable<Product>> GetAllAsync() => await _context.Products.ToListAsync();
+        // Retrieves all Products from the database asynchronously including related categories
+        public async Task<IEnumerable<Product>> GetAllAsync() =>
+            await _context.Products
+                .Include(p => p.ProductCategories)
+                    .ThenInclude(pc => pc.Category)
+                .ToListAsync();
 
-        // Retrieves a Product by ID from the database asynchronously
-        public async Task<Product> GetByIdAsync(int id) => await _context.Products.FindAsync(id);
+        // Retrieves a Product by ID from the database asynchronously including related categories
+        public async Task<Product> GetByIdAsync(int id) =>
+            await _context.Products
+                .Include(p => p.ProductCategories)
+                    .ThenInclude(pc => pc.Category)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
         // Adds a Product to the database asynchronously
         public async Task AddAsync(Product product)
