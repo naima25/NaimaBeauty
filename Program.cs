@@ -14,6 +14,17 @@ using NaimaBeauty.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add CORS policy before building app
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()   // or specify React app URL with .WithOrigins("http://localhost:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // builder.Services.AddControllers();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -25,10 +36,6 @@ builder.Services.AddControllers()
 // Register DbContext with Azure SQL connection
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-//Configure CORS to allow the React app 
-
-
 
 
 
@@ -105,9 +112,12 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// app.UseCors("AllowAll");
-// app.UseStaticFiles(); 
-// app.MapGet("/test-image", () => Results.Ok("Static files are working!"));
+app.UseCors("AllowAll");
+
+app.UseStaticFiles(); 
+
+app.MapGet("/test-image", () => Results.Ok("Static files are working!"));
+
 
 if (app.Environment.IsDevelopment())
 {

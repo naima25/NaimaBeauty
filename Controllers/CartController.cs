@@ -30,6 +30,8 @@ namespace NaimaBeauty.Controllers
             return await _context.Carts
                 .Include(c => c.CartItems)
                 .ThenInclude(ci => ci.Product)
+                 .ThenInclude(p => p.ProductCategories)
+                    .ThenInclude(pc => pc.Category)
                 .Include(c => c.Customer)
                 .ToListAsync();
         }
@@ -41,6 +43,8 @@ namespace NaimaBeauty.Controllers
             var cart = await _context.Carts
                 .Include(c => c.CartItems)
                 .ThenInclude(ci => ci.Product)
+                 .ThenInclude(p => p.ProductCategories)
+                    .ThenInclude(pc => pc.Category)
                 .Include(c => c.Customer)
                 .FirstOrDefaultAsync(c => c.Id == id);
 

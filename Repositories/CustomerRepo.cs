@@ -17,10 +17,16 @@ namespace NaimaBeauty.Repositories
         }
 
         public async Task<IEnumerable<Customer>> GetAllAsync() =>
-            await _context.Customers.ToListAsync();
+        await _context.Customers
+            .Include(c => c.Orders)
+            .ThenInclude(o => o.OrderItems)
+            .ToListAsync();
 
         public async Task<Customer?> GetByIdAsync(string id) =>
-            await _context.Customers.FindAsync(id);
+            await _context.Customers
+                .Include(c => c.Orders)
+                .ThenInclude(o => o.OrderItems)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
         public async Task AddAsync(Customer customer)
         {
@@ -34,9 +40,13 @@ namespace NaimaBeauty.Repositories
             await _context.SaveChangesAsync();
         }
 
+
         public async Task DeleteAsync(string id)
         {
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = await _context.Customers
+                 .Include(c => c.Orders)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
             if (customer != null)
             {
                 _context.Customers.Remove(customer);
@@ -45,3 +55,15 @@ namespace NaimaBeauty.Repositories
         }
     }
 }
+
+    //      public async Task DeleteAsync(string id)
+    //      {
+    //          var customer = await _context.Customers.FindAsync(id);
+    //          if (customer != null)
+    //          {
+    //              _context.Customers.Remove(customer);
+    //              await _context.SaveChangesAsync();
+    //          }
+    //      }
+    // }
+

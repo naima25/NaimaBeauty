@@ -27,8 +27,10 @@ namespace NaimaBeauty.Repositories
             return await _context.Carts
                 .Include(c => c.CartItems)
                     .ThenInclude(ci => ci.Product)
+                     .ThenInclude(p => p.ProductCategories)   // include product categories
+                    .ThenInclude(pc => pc.Category) 
                 .Include(c => c.Customer)
-                .AsNoTracking()
+                // .AsNoTracking()
                 .ToListAsync();
         }
 
@@ -37,8 +39,10 @@ namespace NaimaBeauty.Repositories
                 return await _context.Carts
                     .Include(c => c.CartItems)
                         .ThenInclude(ci => ci.Product)
+                         .ThenInclude(p => p.ProductCategories)   // include product categories
+                    .ThenInclude(pc => pc.Category) 
                     .Include(c => c.Customer)
-                    .AsNoTracking()
+                    // .AsNoTracking()
                     .FirstOrDefaultAsync(c => c.Id == id);
             }
 

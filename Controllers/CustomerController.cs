@@ -26,51 +26,99 @@ namespace NaimaBeauty.Controllers
         }
       
         // GET: api/Customer
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+[HttpGet]
+public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+{
+    try
+    {
+        _logger.LogInformation("Fetching all customers with orders.");
+        var customers = await _customerService.GetAllAsync(); // Calls service with Include
+
+        if (customers == null || !customers.Any())
         {
-            try
-            {
-                _logger.LogInformation("Fetching all customers.");
-                var customers = await _customerService.GetAllAsync(); // Calls the service to get all customers
-                // If no customers are found, return a "Not Found" status
-                if (customers == null || !customers.Any())
-                {
-                    _logger.LogWarning("No customers found.");
-                    return NotFound("No customers found.");
-                }
-                return Ok(customers);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while fetching customers.");
-                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
-            }
+            _logger.LogWarning("No customers found.");
+            return NotFound("No customers found.");
+        }
+        return Ok(customers);
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "An error occurred while fetching customers.");
+        return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
+    }
+}
+
+// GET: api/Customer/{id}
+[HttpGet("{id}")]
+public async Task<ActionResult<Customer>> GetCustomer(string id)
+{
+    try
+    {
+        _logger.LogInformation($"Fetching customer with ID {id} and their orders.");
+        var customer = await _customerService.GetByIdAsync(id);  // Calls service with Include
+
+        if (customer == null)
+        {
+            _logger.LogWarning($"Customer with ID {id} not found.");
+            return NotFound($"Customer with ID {id} not found.");
         }
 
-        // GET: api/Customer/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomer(string id)  // Change int to string
-        {
-            try
-            {
-                _logger.LogInformation($"Fetching customer with ID {id}");
-                var customer = await _customerService.GetByIdAsync(id);  
+        return Ok(customer);
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "An error occurred while fetching the customer.");
+        return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
+    }
+}
 
-                if (customer == null)
-                {
-                    _logger.LogWarning($"Customer with ID {id} not found.");
-                    return NotFound($"Customer with ID {id} not found.");
-                }
 
-                return Ok(customer);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while fetching the customer.");
-                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
-            }
-        }
+        // // GET: api/Customer
+        // [HttpGet]
+        // public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+        // {
+        //     try
+        //     {
+        //         _logger.LogInformation("Fetching all customers.");
+        //         var customers = await _customerService.GetAllAsync(); // Calls the service to get all customers
+        //         // If no customers are found, return a "Not Found" status
+        //         if (customers == null || !customers.Any())
+        //         {
+        //             _logger.LogWarning("No customers found.");
+        //             return NotFound("No customers found.");
+        //         }
+        //         return Ok(customers);
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         _logger.LogError(ex, "An error occurred while fetching customers.");
+        //         return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
+        //     }
+        // }
+
+        // // GET: api/Customer/{id}
+        // [HttpGet("{id}")]
+        // public async Task<ActionResult<Customer>> GetCustomer(string id)  // Change int to string
+        // {
+        //     try
+        //     {
+        //         _logger.LogInformation($"Fetching customer with ID {id}");
+        //         var customer = await _customerService.GetByIdAsync(id);  
+
+        //         if (customer == null)
+        //         {
+        //             _logger.LogWarning($"Customer with ID {id} not found.");
+        //             return NotFound($"Customer with ID {id} not found.");
+        //         }
+
+        //         return Ok(customer);
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         _logger.LogError(ex, "An error occurred while fetching the customer.");
+        //         return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
+        //     }
+        // }
 
 
         // POST: api/Customer

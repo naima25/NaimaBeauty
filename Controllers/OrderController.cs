@@ -35,6 +35,8 @@ namespace NaimaBeauty.Controllers
                     .Include(o => o.Customer)
                     .Include(o => o.OrderItems)
                         .ThenInclude(oi => oi.Product)
+                .ThenInclude(p => p.ProductCategories)
+                    .ThenInclude(pc => pc.Category)
                     .ToListAsync();
 
                 if (orders == null || !orders.Any())
@@ -63,6 +65,8 @@ namespace NaimaBeauty.Controllers
                     .Include(o => o.Customer)
                     .Include(o => o.OrderItems)
                         .ThenInclude(oi => oi.Product)
+                .ThenInclude(p => p.ProductCategories)
+                    .ThenInclude(pc => pc.Category)
                     .FirstOrDefaultAsync(o => o.Id == id);
 
                 if (order == null)

@@ -16,15 +16,34 @@ namespace NaimaBeauty.Repositories
             _context = context;
         }
 
+        // public async Task<IEnumerable<CartItem>> GetAllAsync()
+        // {
+        //     return await _context.CartItems.ToListAsync();
+        // }
+
+        // public async Task<CartItem?> GetByIdAsync(int id)
+        // {
+        //     return await _context.CartItems.FindAsync(id);
+        // }
+
         public async Task<IEnumerable<CartItem>> GetAllAsync()
         {
-            return await _context.CartItems.ToListAsync();
+            return await _context.CartItems
+                .Include(ci => ci.Product)
+                    .ThenInclude(p => p.ProductCategories)
+                    .ThenInclude(pc => pc.Category)
+                .ToListAsync();
         }
 
         public async Task<CartItem?> GetByIdAsync(int id)
         {
-            return await _context.CartItems.FindAsync(id);
+            return await _context.CartItems
+                .Include(ci => ci.Product)
+                    .ThenInclude(p => p.ProductCategories)
+                    .ThenInclude(pc => pc.Category)
+                .FirstOrDefaultAsync(ci => ci.Id == id);
         }
+
 
         public async Task AddAsync(CartItem cartItem)
         {

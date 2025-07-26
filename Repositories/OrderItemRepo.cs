@@ -16,11 +16,23 @@ namespace NaimaBeauty.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<OrderItem>> GetAllAsync() =>
-            await _context.OrderItems.ToListAsync();
+            public async Task<IEnumerable<OrderItem>> GetAllAsync()
+        {
+            return await _context.OrderItems
+                .Include(oi => oi.Product)
+                    .ThenInclude(p => p.ProductCategories)
+                        .ThenInclude(pc => pc.Category)
+                .ToListAsync();
+        }
 
-        public async Task<OrderItem?> GetByIdAsync(int id) =>
-            await _context.OrderItems.FindAsync(id);
+        public async Task<OrderItem?> GetByIdAsync(int id)
+        {
+            return await _context.OrderItems
+                .Include(oi => oi.Product)
+                    .ThenInclude(p => p.ProductCategories)
+                        .ThenInclude(pc => pc.Category)
+                .FirstOrDefaultAsync(oi => oi.Id == id);
+        }
 
         public async Task AddAsync(OrderItem orderItem)
         {

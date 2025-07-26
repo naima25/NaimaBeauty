@@ -32,6 +32,8 @@ namespace NaimaBeauty.Controllers
                 _logger.LogInformation("Fetching all order items with products.");
                 var orderItems = await _context.OrderItems
                     .Include(o => o.Product)  // Explicitly load the Product
+                    .ThenInclude(p => p.ProductCategories)
+                    .ThenInclude(pc => pc.Category)
                     .ToListAsync();
 
                 if (orderItems == null || !orderItems.Any())
@@ -59,6 +61,8 @@ namespace NaimaBeauty.Controllers
                 _logger.LogInformation($"Fetching order item {id} with product.");
                 var orderItem = await _context.OrderItems
                     .Include(o => o.Product)  // Explicitly load the Product
+                    .ThenInclude(p => p.ProductCategories)
+                    .ThenInclude(pc => pc.Category)
                     .FirstOrDefaultAsync(o => o.Id == id);
 
                 if (orderItem == null)
