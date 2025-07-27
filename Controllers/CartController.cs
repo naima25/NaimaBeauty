@@ -84,83 +84,159 @@ namespace NaimaBeauty.Controllers
         }
 
         // PUT: api/Cart/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCart(int id, Cart cart)
+[HttpPut("{id}")]
+public async Task<IActionResult> UpdateCart(int id, CartDto cartDto)
+{
+    if (id != cartDto.Id)
+    {
+        return BadRequest();
+    }
+
+    // Get existing cart with items from DB
+    var existingCart = await _context.Carts
+        .Include(c => c.CartItems)
+        .FirstOrDefaultAsync(c => c.Id == id);
+
+    if (existingCart == null)
+    {
+        return NotFound();
+    }
+
+    // Update cart properties from DTO
+    existingCart.CustomerId = cartDto.CustomerId;
+    existingCart.Price = cartDto.Price;
+
+    if (cartDto.CartItems != null)
+    {
+        // Remove items not in updated DTO list
+        var itemsToRemove = existingCart.CartItems
+            .Where(existing => !cartDto.CartItems.Any(updated => updated.ProductId == existing.ProductId))
+            .ToList();
+
+        foreach (var item in itemsToRemove)
         {
-            if (id != cart.Id)
-            {
-                return BadRequest();
-            }
-
-            // Get existing cart with items
-            var existingCart = await _context.Carts
-                .Include(c => c.CartItems)
-                .FirstOrDefaultAsync(c => c.Id == id);
-
-            if (existingCart == null)
-            {
-                return NotFound();
-            }
-
-            // Update cart properties
-            existingCart.CustomerId = cart.CustomerId;
-            existingCart.Price = cart.Price;
-
-            // Handle cart items
-            if (cart.CartItems != null)
-            {
-                // Remove items not in the updated cart
-                var itemsToRemove = existingCart.CartItems
-                    .Where(existing => !cart.CartItems.Any(updated => 
-                        updated.ProductId == existing.ProductId))
-                    .ToList();
-
-                foreach (var item in itemsToRemove)
-                {
-                    _context.CartItems.Remove(item);
-                }
-
-                // Update existing items or add new ones
-                foreach (var updatedItem in cart.CartItems)
-                {
-                    var existingItem = existingCart.CartItems
-                        .FirstOrDefault(ci => ci.ProductId == updatedItem.ProductId);
-
-                    if (existingItem != null)
-                    {
-                        // Update quantity
-                        existingItem.Quantity = updatedItem.Quantity;
-                    }
-                    else
-                    {
-                        // Add new item (without CartId since it's not in model)
-                        existingCart.CartItems.Add(new CartItem
-                        {
-                            ProductId = updatedItem.ProductId,
-                            Quantity = updatedItem.Quantity
-                        });
-                    }
-                }
-            }
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CartExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            _context.CartItems.Remove(item);
         }
+
+        // Update existing or add new cart items
+        foreach (var updatedItem in cartDto.CartItems)
+        {
+            var existingItem = existingCart.CartItems
+                .FirstOrDefault(ci => ci.ProductId == updatedItem.ProductId);
+
+            if (existingItem != null)
+            {
+                existingItem.Quantity = updatedItem.Quantity;
+            }
+            else
+            {
+                existingCart.CartItems.Add(new CartItem
+                {
+                    ProductId = updatedItem.ProductId,
+                    Quantity = updatedItem.Quantity
+                });
+            }
+        }
+    }
+
+    try
+    {
+        await _context.SaveChangesAsync();
+    }
+    catch (DbUpdateConcurrencyException)
+    {
+        if (!CartExists(id))
+        {
+            return NotFound();
+        }
+        else
+        {
+            throw;
+        }
+    }
+
+    return NoContent();
+}
+
+
+        // // PUT: api/Cart/5
+        // [HttpPut("{id}")]
+        // public async Task<IActionResult> UpdateCart(int id, Cart cart)
+        // {
+        //     if (id != cart.Id)
+        //     {
+        //         return BadRequest();
+        //     }
+
+        //     // Get existing cart with items
+        //     var existingCart = await _context.Carts
+        //         .Include(c => c.CartItems)
+        //         .FirstOrDefaultAsync(c => c.Id == id);
+
+        //     if (existingCart == null)
+        //     {
+        //         return NotFound();
+        //     }
+
+        //     // Update cart properties
+        //     existingCart.CustomerId = cart.CustomerId;
+        //     existingCart.Price = cart.Price;
+
+        //     // Handle cart items
+        //     if (cart.CartItems != null)
+        //     {
+        //         // Remove items not in the updated cart
+        //         var itemsToRemove = existingCart.CartItems
+        //             .Where(existing => !cart.CartItems.Any(updated => 
+        //                 updated.ProductId == existing.ProductId))
+        //             .ToList();
+
+        //         foreach (var item in itemsToRemove)
+        //         {
+        //             _context.CartItems.Remove(item);
+        //         }
+
+        //         // Update existing items or add new ones
+        //         foreach (var updatedItem in cart.CartItems)
+        //         {
+        //             var existingItem = existingCart.CartItems
+        //                 .FirstOrDefault(ci => ci.ProductId == updatedItem.ProductId);
+
+        //             if (existingItem != null)
+        //             {
+        //                 // Update quantity
+        //                 existingItem.Quantity = updatedItem.Quantity;
+        //             }
+        //             else
+        //             {
+        //                 // Add new item (without CartId since it's not in model)
+        //                 existingCart.CartItems.Add(new CartItem
+        //                 {
+        //                     ProductId = updatedItem.ProductId,
+        //                     Quantity = updatedItem.Quantity
+        //                 });
+        //             }
+        //         }
+        //     }
+
+        //     try
+        //     {
+        //         await _context.SaveChangesAsync();
+        //     }
+        //     catch (DbUpdateConcurrencyException)
+        //     {
+        //         if (!CartExists(id))
+        //         {
+        //             return NotFound();
+        //         }
+        //         else
+        //         {
+        //             throw;
+        //         }
+        //     }
+
+        //     return NoContent();
+        // }
 
         // DELETE: api/Cart/5
         [HttpDelete("{id}")]
