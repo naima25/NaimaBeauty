@@ -34,22 +34,31 @@ namespace NaimaBeauty.Controllers
             _configuration = configuration;
         }
 
+    
+
         [HttpPost("register")]
-        public async Task<IActionResult> Register(LoginRequest model)
+        public async Task<IActionResult> Register([FromBody] LoginRequest model)
         {
+            if (model == null)
+                return BadRequest("Request body is null");
+
+            Console.WriteLine($"Email: {model.Email}, Password: {model.Password}");
+
             var user = new Customer { UserName = model.Email, Email = model.Email };
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
-                var roles = await _userManager.GetRolesAsync(user);   // Get the roles of the user (used for role-based authorisation)
-                var token = GenerateJwtToken(user,roles);  // Generate a JWT (JSON Web Token) for the registered user
+                var roles = await _userManager.GetRolesAsync(user);
+                var token = GenerateJwtToken(user, roles);
                 return Ok(new { Token = token });
             }
 
-
-            return BadRequest(result.Errors);
+            // Return detailed errors from Identity if registration fails
+            var errors = result.Errors.Select(e => e.Description);
+            return BadRequest(new { Errors = errors });
         }
+
 
 
         [HttpPost("login")]
