@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/naima/NaimaBeauty/NaimaBeauty.csproj": {}
+    "C:\\Users\\naima\\NaimaBeauty\\NaimaBeauty.csproj": {}
   },
   "projects": {
-    "/Users/naima/NaimaBeauty/NaimaBeauty.csproj": {
+    "C:\\Users\\naima\\NaimaBeauty\\NaimaBeauty.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/naima/NaimaBeauty/NaimaBeauty.csproj",
+        "projectUniqueName": "C:\\Users\\naima\\NaimaBeauty\\NaimaBeauty.csproj",
         "projectName": "NaimaBeauty",
-        "projectPath": "/Users/naima/NaimaBeauty/NaimaBeauty.csproj",
-        "packagesPath": "/Users/naima/.nuget/packages/",
-        "outputPath": "/Users/naima/NaimaBeauty/obj/",
+        "projectPath": "C:\\Users\\naima\\NaimaBeauty\\NaimaBeauty.csproj",
+        "packagesPath": "C:\\Users\\naima\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\naima\\NaimaBeauty\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/naima/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\naima\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -38,7 +38,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net9.0": {
@@ -70,6 +70,10 @@
               "target": "Package",
               "version": "[9.0.7, )"
             },
+            "QuestPDF": {
+              "target": "Package",
+              "version": "[2025.7.1, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[9.0.3, )"
@@ -98,7 +102,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

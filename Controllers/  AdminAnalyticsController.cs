@@ -4,6 +4,9 @@ using NaimaBeauty.Data; // your DbContext namespace
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 
 namespace NaimaBeauty.Controllers
 {
@@ -117,7 +120,9 @@ namespace NaimaBeauty.Controllers
 
             return Ok(ordersByCategory);
         }
-
+      
     }
+
+    
 }
 
