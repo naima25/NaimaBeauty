@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NaimaBeauty")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a06e7d6eef31d05bbc75407ffbbc923d15f31537")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f6e4018af37004f1f584b52e5258a948e2791aed")]
 [assembly: System.Reflection.AssemblyProductAttribute("NaimaBeauty")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NaimaBeauty")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

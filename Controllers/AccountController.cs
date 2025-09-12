@@ -10,6 +10,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+
 
 // AccountController handles user registration, login and JWT token generation
 // It allows users to register, log in, log out
@@ -35,7 +37,7 @@ namespace NaimaBeauty.Controllers
         }
 
     
-
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] LoginRequest model)
         {
