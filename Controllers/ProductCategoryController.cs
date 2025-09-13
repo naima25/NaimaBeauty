@@ -13,7 +13,7 @@ namespace NaimaBeauty.Controllers
     public class ProductCategoryController : ControllerBase
     {
         private readonly IProductCategoryRepository _service;
- 
+
         public ProductCategoryController(IProductCategoryRepository service)
         {
             _service = service;

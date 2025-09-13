@@ -1,9 +1,9 @@
-using System.Collections.Generic;   
-using System.Threading.Tasks;      
-using NaimaBeauty.Data;           
-using NaimaBeauty.Models;        
-using Microsoft.AspNetCore.Mvc;    
-using Microsoft.EntityFrameworkCore; 
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using NaimaBeauty.Data;
+using NaimaBeauty.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace NaimaBeauty.Controllers
@@ -11,9 +11,9 @@ namespace NaimaBeauty.Controllers
     [ApiController]
     [Route("api/[controller]")]
     public class CategoryController : ControllerBase
-        {
+    {
         // Constructor - Injects the database context (Dependency Injection)
-        private readonly AppDbContext _context; 
+        private readonly AppDbContext _context;
 
         public CategoryController(AppDbContext context)
         {
@@ -22,7 +22,7 @@ namespace NaimaBeauty.Controllers
 
         // GET: api/Category
         [HttpGet]
-       
+
         public async Task<ActionResult<IEnumerable<Category>>> Get()
         {
             // Get all categories from the database
@@ -88,7 +88,7 @@ namespace NaimaBeauty.Controllers
             _context.Categories.Remove(categoryToRemove);
             await _context.SaveChangesAsync(); // Save the changes to the database
 
-            return NoContent(); 
+            return NoContent();
+        }
     }
-}
 }

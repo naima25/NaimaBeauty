@@ -29,7 +29,7 @@ namespace NaimaBeauty.Controllers
         {
             _context = context;
             _logger = logger;
-             _cartItemService = cartItemService;
+            _cartItemService = cartItemService;
         }
 
         // GET: api/CartItem
@@ -90,108 +90,59 @@ namespace NaimaBeauty.Controllers
             }
         }
 
-        // [HttpPost]
-        // public async Task<ActionResult<CartItem>> Create([FromBody] CartItem newCartItem)
-        // {
-        //     try
-        //     {
-        //         // 1. Validate input
-        //         if (newCartItem == null)
-        //         {
-        //             _logger.LogWarning("Received empty cart item object.");
-        //             return BadRequest("Cart item data cannot be null.");
-        //         }
-
-        //         _logger.LogInformation("Creating cart item for ProductId: {ProductId}, Quantity: {Quantity}", 
-        //             newCartItem.ProductId, newCartItem.Quantity);
-
-        //         // 2. Check if product exists (more efficient than FirstOrDefault)
-        //         var productExists = await _context.Products
-        //             .AsNoTracking()
-        //             .AnyAsync(p => p.Id == newCartItem.ProductId);
-
-        //         if (!productExists)
-        //         {
-        //             _logger.LogWarning("Product with ID {ProductId} not found.", newCartItem.ProductId);
-        //             return NotFound($"Product with ID {newCartItem.ProductId} not found.");
-        //         }
-
-        //         // 3. Clear navigation property to prevent duplicate insert
-        //         newCartItem.Product = null;
-
-        //         // 4. Save the cart item
-        //         _context.CartItems.Add(newCartItem);
-        //         await _context.SaveChangesAsync();
-
-        //         // 5. Fetch the COMPLETE cart item with product (cleaner than manual attach)
-        //         var createdCartItem = await _context.CartItems
-        //             .Include(c => c.Product)
-        //             .FirstOrDefaultAsync(c => c.Id == newCartItem.Id);
-
-        //         _logger.LogInformation("Successfully created cart item with ID: {CartItemId}", createdCartItem.Id);
-        //         return CreatedAtAction(nameof(Get), new { id = createdCartItem.Id }, createdCartItem);
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         _logger.LogError(ex, "Failed to create cart item for ProductId: {ProductId}", 
-        //             newCartItem?.ProductId ?? 0);
-        //         return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
-        //     }
-        // }
-
 
         [HttpPost]
-public async Task<ActionResult<CartItem>> Create([FromBody] CartItem newCartItem)
-{
-    try
-    {
-        if (newCartItem == null)
+        public async Task<ActionResult<CartItem>> Create([FromBody] CartItem newCartItem)
         {
-            _logger.LogWarning("Received empty cart item object.");
-            return BadRequest("Cart item data cannot be null.");
+            try
+            {
+                if (newCartItem == null)
+                {
+                    _logger.LogWarning("Received empty cart item object.");
+                    return BadRequest("Cart item data cannot be null.");
+                }
+
+                _logger.LogInformation("Creating cart item for ProductId: {ProductId}, Quantity: {Quantity}",
+                    newCartItem.ProductId, newCartItem.Quantity);
+
+                // Check product exists
+                var productExists = await _context.Products
+                    .AsNoTracking()
+                    .AnyAsync(p => p.Id == newCartItem.ProductId);
+
+                if (!productExists)
+                {
+                    _logger.LogWarning("Product with ID {ProductId} not found.", newCartItem.ProductId);
+                    return NotFound($"Product with ID {newCartItem.ProductId} not found.");
+                }
+
+                // Clear navigation property to prevent insert issues
+                newCartItem.Product = null;
+
+                // ✅ Save via service
+                await _cartItemService.AddAsync(newCartItem);
+
+                // Fetch the full cart item to return
+                var createdCartItem = await _context.CartItems
+                    .Include(c => c.Product)
+                    .FirstOrDefaultAsync(c => c.Id == newCartItem.Id);
+
+                if (createdCartItem == null)
+                {
+                    _logger.LogWarning("Failed to retrieve the created cart item with ID {CartItemId}", newCartItem.Id);
+                    return NotFound("Created cart item could not be retrieved.");
+                }
+
+                _logger.LogInformation("Successfully created cart item with ID: {CartItemId}", createdCartItem.Id);
+                return CreatedAtAction(nameof(Get), new { id = createdCartItem.Id }, createdCartItem);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to create cart item for ProductId: {ProductId}",
+                    newCartItem?.ProductId ?? 0);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
+            }
         }
-
-        _logger.LogInformation("Creating cart item for ProductId: {ProductId}, Quantity: {Quantity}", 
-            newCartItem.ProductId, newCartItem.Quantity);
-
-        // Check product exists
-        var productExists = await _context.Products
-            .AsNoTracking()
-            .AnyAsync(p => p.Id == newCartItem.ProductId);
-
-        if (!productExists)
-        {
-            _logger.LogWarning("Product with ID {ProductId} not found.", newCartItem.ProductId);
-            return NotFound($"Product with ID {newCartItem.ProductId} not found.");
-        }
-
-        // Clear navigation property to prevent insert issues
-        newCartItem.Product = null;
-
-        // ✅ Save via service
-        await _cartItemService.AddAsync(newCartItem);
-
-        // Fetch the full cart item to return
-        var createdCartItem = await _context.CartItems
-            .Include(c => c.Product)
-            .FirstOrDefaultAsync(c => c.Id == newCartItem.Id);
-
-        if (createdCartItem == null)
-        {
-            _logger.LogWarning("Failed to retrieve the created cart item with ID {CartItemId}", newCartItem.Id);
-            return NotFound("Created cart item could not be retrieved.");
-        }
-
-        _logger.LogInformation("Successfully created cart item with ID: {CartItemId}", createdCartItem.Id);
-        return CreatedAtAction(nameof(Get), new { id = createdCartItem.Id }, createdCartItem);
-    }
-    catch (Exception ex)
-    {
-        _logger.LogError(ex, "Failed to create cart item for ProductId: {ProductId}", 
-            newCartItem?.ProductId ?? 0);
-        return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
-    }
-}
 
 
         // PUT: api/CartItem/{id}

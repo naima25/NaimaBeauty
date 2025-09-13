@@ -76,45 +76,6 @@ namespace NaimaBeauty.Controllers
             }
         }
 
-
-        // // GET: api/Product
-        // [HttpGet]
-        // public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProducts()
-        // {
-        //     try
-        //     {
-        //         _logger.LogInformation("Fetching all products.");
-        //         var products = await _productService.GetAllAsync();
-
-        //         if (products == null || !products.Any())
-        //         {
-        //             _logger.LogWarning("No products found.");
-        //             return NotFound("No products found.");
-        //         }
-
-        //         // This is where the mapping happens - replace your existing Select statement
-        //         var productDTOs = products.Select(p => new ProductDTO
-        //         {
-        //             Id = p.Id,
-        //             Name = p.Name,
-        //             Price = p.Price,
-        //             ImageUrl = p.ImageUrl,  // Your newly added property
-        //             CategoryIds = (p.ProductCategories ?? Enumerable.Empty<ProductCategory>()).Select(pc => pc.CategoryId).ToList(),
-        //             CategoryNames = (p.ProductCategories ?? Enumerable.Empty<ProductCategory>()).Select(pc => pc.Category.Name).ToList(),
-
-        //             // CategoryIds = p.ProductCategories.Select(pc => pc.CategoryId).ToList(),
-        //             // CategoryNames = p.ProductCategories.Select(pc => pc.Category.Name).ToList(),
-        //         }).ToList();  // Added ToList() for better practice
-
-        //         return Ok(productDTOs);
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         _logger.LogError(ex, "An error occurred while fetching products.");
-        //         return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
-        //     }
-        // }
-
         // GET: api/Product/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
