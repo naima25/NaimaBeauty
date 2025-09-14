@@ -20,18 +20,13 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.AllowAnyOrigin()   // or specify React app URL with .WithOrigins("http://localhost:3000")
+        policy.AllowAnyOrigin()
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
 });
 
-// // builder.Services.AddControllers();
-// builder.Services.AddControllers()
-//     .AddJsonOptions(options =>
-//     {
-//         options.JsonSerializerOptions.WriteIndented = true;
-//     });
+
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -52,7 +47,7 @@ builder.Services.AddIdentity<Customer, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
- //Register the roles controller
+//Register the roles controller
 builder.Services.AddScoped<RolesController>();
 
 //Services - business logic layer
@@ -100,16 +95,16 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1",
         Title = "NaimaBeauty API",
         Description = "A simple e-commerce Web API to manage orders, order-items, customers, products, and categories for a coursework project at the University of Westminster.",
-        TermsOfService = new Uri("https://www.westminster.ac.uk/terms-of-use"), 
+        TermsOfService = new Uri("https://www.westminster.ac.uk/terms-of-use"),
         Contact = new OpenApiContact
         {
-            Name = "Naima Abdulle", 
-            Url = new Uri("https://example.com/contact") 
+            Name = "Naima Abdulle",
+            Url = new Uri("https://example.com/contact")
         },
         License = new OpenApiLicense
         {
             Name = "Example License",
-            Url = new Uri("https://example.com/license") 
+            Url = new Uri("https://example.com/license")
         }
     });
 });
@@ -122,7 +117,7 @@ var app = builder.Build();
 
 app.UseCors("AllowAll");
 
-app.UseStaticFiles(); 
+app.UseStaticFiles();
 
 app.MapGet("/test-image", () => Results.Ok("Static files are working!"));
 

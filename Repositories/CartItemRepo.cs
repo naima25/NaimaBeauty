@@ -16,16 +16,6 @@ namespace NaimaBeauty.Repositories
             _context = context;
         }
 
-        // public async Task<IEnumerable<CartItem>> GetAllAsync()
-        // {
-        //     return await _context.CartItems.ToListAsync();
-        // }
-
-        // public async Task<CartItem?> GetByIdAsync(int id)
-        // {
-        //     return await _context.CartItems.FindAsync(id);
-        // }
-
         public async Task<IEnumerable<CartItem>> GetAllAsync()
         {
             return await _context.CartItems

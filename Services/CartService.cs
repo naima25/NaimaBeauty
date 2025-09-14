@@ -37,17 +37,7 @@ namespace NaimaBeauty.Services
             _context.Entry(cart).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
-
-        // public async Task DeleteAsync(int id)
-        // {
-        //     var cart = await _context.Carts.FindAsync(id);
-        //     if (cart != null)
-        //     {
-        //         _context.Carts.Remove(cart);
-        //         await _context.SaveChangesAsync();
-        //     }
-        // }
-
+  
              public async Task DeleteAsync(int id)
         {
             var cart = await _context.Carts
@@ -69,46 +59,3 @@ namespace NaimaBeauty.Services
 
     }
 }
-
-// using NaimaBeauty.Models;
-// using NaimaBeauty.Interfaces;
-// using System.Collections.Generic;
-// using System.Threading.Tasks;
-
-// namespace NaimaBeauty.Services
-// {
-//     public class CartService
-//     {
-//         private readonly ICartRepository _cartRepository;
-
-//         public CartService(ICartRepository cartRepository)
-//         {
-//             _cartRepository = cartRepository;
-//         }
-
-//         public async Task<IEnumerable<Cart>> GetAllAsync()
-//         {
-//             return await _cartRepository.GetAllAsync();
-//         }
-
-//         public async Task<Cart?> GetByIdAsync(int id)
-//         {
-//             return await _cartRepository.GetByIdAsync(id);
-//         }
-
-//         public async Task AddAsync(Cart cart)
-//         {
-//             await _cartRepository.AddAsync(cart);
-//         }
-
-//         public async Task UpdateAsync(int id, Cart cart)
-//         {
-//             await _cartRepository.UpdateAsync(id, cart);
-//         }
-
-//         public async Task DeleteAsync(int id)
-//         {
-//             await _cartRepository.DeleteAsync(id);
-//         }
-//     }
-// }

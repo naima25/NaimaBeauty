@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Authorization;
 // AccountController handles user registration, login and JWT token generation
 // It allows users to register, log in, log out
 
-
 namespace NaimaBeauty.Controllers
 {
     [Route("api/[controller]")]
@@ -25,7 +24,7 @@ namespace NaimaBeauty.Controllers
     {
         private readonly UserManager<Customer> _userManager; //UserManager is used to handle operations related to user accounts
         private readonly SignInManager<Customer> _signInManager; //SignInManager is responsible for handling the authentication of users
-    
+
         private readonly IConfiguration _configuration;  // Access configuration settings, like JWT key
 
         // Constructor to inject dependencies
@@ -36,7 +35,7 @@ namespace NaimaBeauty.Controllers
             _configuration = configuration;
         }
 
-    
+
         [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] LoginRequest model)
@@ -73,7 +72,7 @@ namespace NaimaBeauty.Controllers
             {
                 var user = await _userManager.FindByEmailAsync(model.Email); // If successful, find the user by email using UserManager
                 var roles = await _userManager.GetRolesAsync(user);   // Get the roles of the user (used for role-based authorisation)
-                var token = GenerateJwtToken(user,roles);  // Generate a JWT (JSON Web Token) for the logged-in user
+                var token = GenerateJwtToken(user, roles);  // Generate a JWT (JSON Web Token) for the logged-in user
                 return Ok(new { Token = token });
             }
 
@@ -87,7 +86,7 @@ namespace NaimaBeauty.Controllers
             await _signInManager.SignOutAsync();
             return Ok("Logged out");
         }
-        
+
         // Generates a JWT token for the user, including their roles
         private string GenerateJwtToken(Customer user, IList<string> roles)
         {

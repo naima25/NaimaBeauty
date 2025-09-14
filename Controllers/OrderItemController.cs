@@ -93,7 +93,7 @@ namespace NaimaBeauty.Controllers
                     return BadRequest("Order item data cannot be null.");
                 }
 
-                _logger.LogInformation("Creating order item for ProductId: {ProductId}, Quantity: {Quantity}", 
+                _logger.LogInformation("Creating order item for ProductId: {ProductId}, Quantity: {Quantity}",
                     newOrderItem.ProductId, newOrderItem.Quantity);
 
                 // Check if product exists
@@ -123,7 +123,7 @@ namespace NaimaBeauty.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to create order item for ProductId: {ProductId}", 
+                _logger.LogError(ex, "Failed to create order item for ProductId: {ProductId}",
                     newOrderItem?.ProductId ?? 0);
                 return StatusCode(500, "Internal server error");
             }

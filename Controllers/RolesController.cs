@@ -49,7 +49,7 @@ namespace NaimaBeauty.Controllers
             return Ok(role);
         }
 
-       // Creates a new role with the specified role name
+        // Creates a new role with the specified role name
         [HttpPost]
         public async Task<IActionResult> CreateRole([FromBody] string roleName)
         {
@@ -119,7 +119,7 @@ namespace NaimaBeauty.Controllers
                 return NotFound("User not found.");
             }
 
-            var roleExists = await _roleManager.RoleExistsAsync  (model.RoleName);
+            var roleExists = await _roleManager.RoleExistsAsync(model.RoleName);
 
             if (!roleExists)
             {

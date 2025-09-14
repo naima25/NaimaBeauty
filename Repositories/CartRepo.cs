@@ -16,42 +16,31 @@ namespace NaimaBeauty.Repositories
             _context = context;
         }
 
-        // // Retrieves all carts
-        // public async Task<IEnumerable<Cart>> GetAllAsync()
-        // {
-        //     return await _context.Carts.ToListAsync();
-        // }
-
         public async Task<IEnumerable<Cart>> GetAllAsync()
         {
             return await _context.Carts
                 .Include(c => c.CartItems)
                     .ThenInclude(ci => ci.Product)
                      .ThenInclude(p => p.ProductCategories)   // include product categories
-                    .ThenInclude(pc => pc.Category) 
+                    .ThenInclude(pc => pc.Category)
                 .Include(c => c.Customer)
                 // .AsNoTracking()
                 .ToListAsync();
         }
 
-            public async Task<Cart?> GetByIdAsync(int id)
-            {
-                return await _context.Carts
-                    .Include(c => c.CartItems)
-                        .ThenInclude(ci => ci.Product)
-                         .ThenInclude(p => p.ProductCategories)   // include product categories
-                    .ThenInclude(pc => pc.Category) 
-                    .Include(c => c.Customer)
-                    // .AsNoTracking()
-                    .FirstOrDefaultAsync(c => c.Id == id);
-            }
+        public async Task<Cart?> GetByIdAsync(int id)
+        {
+            return await _context.Carts
+                .Include(c => c.CartItems)
+                    .ThenInclude(ci => ci.Product)
+                     .ThenInclude(p => p.ProductCategories)   // include product categories
+                .ThenInclude(pc => pc.Category)
+                .Include(c => c.Customer)
+                // .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
 
 
-        // // Retrieves a cart by its ID
-        // public async Task<Cart?> GetByIdAsync(int id)
-        // {
-        //     return await _context.Carts.FindAsync(id);
-        // }
 
         // Adds a new cart
         public async Task AddAsync(Cart cart)
@@ -67,17 +56,6 @@ namespace NaimaBeauty.Repositories
             await _context.SaveChangesAsync();
         }
 
-        //     // Deletes a cart by ID
-        //     public async Task DeleteAsync(int id)
-        //     {
-        //         var cart = await _context.Carts.FindAsync(id);
-        //         if (cart != null)
-        //         {
-        //             _context.Carts.Remove(cart);
-        //             await _context.SaveChangesAsync();
-        //         }
-        //     }
-        // }
 
         public async Task DeleteAsync(int id)
         {

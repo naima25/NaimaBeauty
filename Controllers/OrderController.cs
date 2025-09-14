@@ -156,99 +156,99 @@ namespace NaimaBeauty.Controllers
             }
         }
 
-[HttpPut("{id}")]
-public async Task<IActionResult> UpdateOrder(int id, OrderDto orderDto)
-{
-    try
-    {
-        // Map OrderDto to Order entity (to keep your existing logic unchanged)
-        var order = new Order
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateOrder(int id, OrderDto orderDto)
         {
-            Id = id, // Make sure the id matches the URL
-            CustomerId = orderDto.CustomerId,
-            Price = orderDto.Price,
-            OrderDate = orderDto.OrderDate,
-            OrderItems = orderDto.OrderItems?.Select(itemDto => new OrderItem
+            try
             {
-                Id = itemDto.Id,        // assuming OrderItemDto has Id
-                ProductId = itemDto.ProductId,
-                Quantity = itemDto.Quantity
-            }).ToList()
-        };
+                // Map OrderDto to Order entity (to keep your existing logic unchanged)
+                var order = new Order
+                {
+                    Id = id, // Make sure the id matches the URL
+                    CustomerId = orderDto.CustomerId,
+                    Price = orderDto.Price,
+                    OrderDate = orderDto.OrderDate,
+                    OrderItems = orderDto.OrderItems?.Select(itemDto => new OrderItem
+                    {
+                        Id = itemDto.Id,        // assuming OrderItemDto has Id
+                        ProductId = itemDto.ProductId,
+                        Quantity = itemDto.Quantity
+                    }).ToList()
+                };
 
-        if (id != order.Id)
-        {
-            _logger.LogWarning("Order ID mismatch.");
-            return BadRequest("Order ID mismatch.");
-        }
+                if (id != order.Id)
+                {
+                    _logger.LogWarning("Order ID mismatch.");
+                    return BadRequest("Order ID mismatch.");
+                }
 
-        _logger.LogInformation($"Updating order with ID {id}");
+                _logger.LogInformation($"Updating order with ID {id}");
 
-        var existingOrder = await _context.Orders
-            .Include(o => o.OrderItems)
-            .FirstOrDefaultAsync(o => o.Id == id);
+                var existingOrder = await _context.Orders
+                    .Include(o => o.OrderItems)
+                    .FirstOrDefaultAsync(o => o.Id == id);
 
-        if (existingOrder == null)
-        {
-            _logger.LogWarning($"Order with ID {id} not found for update.");
-            return NotFound($"Order with ID {id} not found.");
-        }
+                if (existingOrder == null)
+                {
+                    _logger.LogWarning($"Order with ID {id} not found for update.");
+                    return NotFound($"Order with ID {id} not found.");
+                }
 
-        // Verify customer exists if changing customer
-        if (existingOrder.CustomerId != order.CustomerId)
-        {
-            var customerExists = await _context.Customers.AnyAsync(c => c.Id == order.CustomerId);
-            if (!customerExists)
+                // Verify customer exists if changing customer
+                if (existingOrder.CustomerId != order.CustomerId)
+                {
+                    var customerExists = await _context.Customers.AnyAsync(c => c.Id == order.CustomerId);
+                    if (!customerExists)
+                    {
+                        _logger.LogWarning("Customer with ID {CustomerId} not found.", order.CustomerId);
+                        return NotFound($"Customer with ID {order.CustomerId} not found.");
+                    }
+                }
+
+                // Update properties
+                existingOrder.CustomerId = order.CustomerId;
+                existingOrder.Price = order.Price;
+                existingOrder.OrderDate = order.OrderDate;
+
+                // Handle order items updates if needed
+                // Update order item quantities
+                foreach (var updatedItem in order.OrderItems)
+                {
+                    var existingItem = existingOrder.OrderItems
+                        .FirstOrDefault(oi => oi.Id == updatedItem.Id);
+
+                    if (existingItem != null)
+                    {
+                        existingItem.Quantity = updatedItem.Quantity;
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+
+                // Reload the complete order with relationships
+                var updatedOrder = await _context.Orders
+                    .Include(o => o.Customer)
+                    .Include(o => o.OrderItems)
+                        .ThenInclude(oi => oi.Product)
+                    .FirstOrDefaultAsync(o => o.Id == id);
+
+                _logger.LogInformation($"Order with ID {id} updated successfully.");
+                return Ok(updatedOrder);
+            }
+            catch (DbUpdateConcurrencyException ex)
             {
-                _logger.LogWarning("Customer with ID {CustomerId} not found.", order.CustomerId);
-                return NotFound($"Customer with ID {order.CustomerId} not found.");
+                _logger.LogError(ex, "Concurrency error while updating order.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Concurrency issue while updating the order.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating the order.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
         }
 
-        // Update properties
-        existingOrder.CustomerId = order.CustomerId;
-        existingOrder.Price = order.Price;
-        existingOrder.OrderDate = order.OrderDate;
-
-        // Handle order items updates if needed
-        // Update order item quantities
-        foreach (var updatedItem in order.OrderItems)
-        {
-            var existingItem = existingOrder.OrderItems
-                .FirstOrDefault(oi => oi.Id == updatedItem.Id);
-
-            if (existingItem != null)
-            {
-                existingItem.Quantity = updatedItem.Quantity;
-            }
-        }
-
-        await _context.SaveChangesAsync();
-
-        // Reload the complete order with relationships
-        var updatedOrder = await _context.Orders
-            .Include(o => o.Customer)
-            .Include(o => o.OrderItems)
-                .ThenInclude(oi => oi.Product)
-            .FirstOrDefaultAsync(o => o.Id == id);
-
-        _logger.LogInformation($"Order with ID {id} updated successfully.");
-        return Ok(updatedOrder);
-    }
-    catch (DbUpdateConcurrencyException ex)
-    {
-        _logger.LogError(ex, "Concurrency error while updating order.");
-        return StatusCode(StatusCodes.Status500InternalServerError, "Concurrency issue while updating the order.");
-    }
-    catch (Exception ex)
-    {
-        _logger.LogError(ex, "An error occurred while updating the order.");
-        return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
-    }
-}
 
 
-       
         // DELETE: api/Order/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
@@ -256,7 +256,7 @@ public async Task<IActionResult> UpdateOrder(int id, OrderDto orderDto)
             try
             {
                 _logger.LogInformation($"Deleting order with ID {id}.");
-                
+
                 // Include related OrderItems in the query
                 var order = await _context.Orders
                     .Include(o => o.OrderItems)
@@ -270,10 +270,10 @@ public async Task<IActionResult> UpdateOrder(int id, OrderDto orderDto)
 
                 // Remove all order items first
                 _context.OrderItems.RemoveRange(order.OrderItems);
-                
+
                 // Then remove the order
                 _context.Orders.Remove(order);
-                
+
                 await _context.SaveChangesAsync();
 
                 _logger.LogInformation($"Order with ID {id} deleted successfully.");
@@ -285,5 +285,5 @@ public async Task<IActionResult> UpdateOrder(int id, OrderDto orderDto)
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
         }
-        }
     }
+}
