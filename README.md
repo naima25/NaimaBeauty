@@ -65,5 +65,3 @@ dotnet run
 
 
 
-dotnet restore
-
